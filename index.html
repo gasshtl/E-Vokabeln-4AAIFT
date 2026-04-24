@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vocab Quiz</title>
+<title>Vocab Quiz · 4AAIFT</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -16,13 +16,9 @@
     --accent2: #C4622D;
     --accent2-light: #FAF0EB;
     --border: #E2DDD8;
-    --correct: #2D5A3D;
-    --wrong: #C4622D;
     --radius: 14px;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     font-family: 'DM Sans', sans-serif;
     background: var(--bg);
@@ -33,67 +29,66 @@
     align-items: center;
     padding: 2rem 1rem 4rem;
   }
-
-  header {
-    text-align: center;
-    margin-bottom: 2.5rem;
-  }
-
-  header h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 2.4rem;
-    letter-spacing: -0.5px;
-    color: var(--text);
-  }
-
-  header p {
-    color: var(--muted);
-    font-size: 0.95rem;
-    margin-top: 0.3rem;
-  }
+  header { text-align: center; margin-bottom: 2rem; }
+  header h1 { font-family: 'DM Serif Display', serif; font-size: 2.4rem; letter-spacing: -0.5px; }
+  header p { color: var(--muted); font-size: 0.9rem; margin-top: 0.3rem; }
 
   .badge {
     display: inline-block;
     background: var(--accent-light);
     color: var(--accent);
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 600;
-    padding: 3px 10px;
+    padding: 3px 9px;
     border-radius: 20px;
     margin-right: 4px;
-    letter-spacing: 0.3px;
   }
+  .badge-gray { background: #F1EFE8; color: #5F5E5A; }
 
-  /* MODE SELECTOR */
   .mode-bar {
     display: flex;
-    gap: 8px;
-    margin-bottom: 2rem;
+    gap: 6px;
+    margin-bottom: 1.5rem;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 50px;
     padding: 5px;
   }
-
   .mode-btn {
-    padding: 8px 20px;
+    padding: 8px 18px;
     border-radius: 50px;
     border: none;
     background: transparent;
     color: var(--muted);
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
   }
+  .mode-btn.active { background: var(--accent); color: white; }
 
-  .mode-btn.active {
-    background: var(--accent);
-    color: white;
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 1.2rem;
+    justify-content: center;
+    max-width: 640px;
   }
+  .filter-btn {
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
 
-  /* MAIN CARD */
   .card {
     width: 100%;
     max-width: 640px;
@@ -101,333 +96,95 @@
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 2rem;
-    position: relative;
   }
 
-  /* Progress */
-  .progress-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.2rem;
-  }
+  .progress-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; }
+  .progress-bar-wrap { flex: 1; height: 4px; background: var(--border); border-radius: 4px; margin-right: 12px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.4s ease; }
+  .progress-label { font-size: 0.82rem; color: var(--muted); white-space: nowrap; }
 
-  .progress-bar-wrap {
-    flex: 1;
-    height: 4px;
-    background: var(--border);
-    border-radius: 4px;
-    margin-right: 12px;
-    overflow: hidden;
-  }
+  .score-box { display: flex; gap: 12px; justify-content: flex-end; margin-bottom: 1rem; }
+  .score-item { font-size: 0.82rem; color: var(--muted); }
+  .score-item span { font-weight: 600; color: var(--text); }
 
-  .progress-bar-fill {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 4px;
-    transition: width 0.4s ease;
-  }
-
-  .progress-label {
-    font-size: 0.82rem;
-    color: var(--muted);
-    white-space: nowrap;
-  }
-
-  /* FLASHCARD MODE */
-  .flashcard-wrap {
-    perspective: 1000px;
-    height: 220px;
-    cursor: pointer;
-    margin: 1rem 0 1.5rem;
-  }
-
-  .flashcard-inner {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.5s ease;
-  }
-
+  .flashcard-wrap { perspective: 1000px; height: 230px; cursor: pointer; margin: 1rem 0 1.5rem; }
+  .flashcard-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.5s ease; }
   .flashcard-inner.flipped { transform: rotateY(180deg); }
-
   .flashcard-front, .flashcard-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    text-align: center;
+    position: absolute; width: 100%; height: 100%;
+    backface-visibility: hidden; border-radius: 10px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 1.5rem; text-align: center;
   }
+  .flashcard-front { background: var(--accent-light); border: 1px solid #C8DDD0; }
+  .flashcard-back { background: var(--accent2-light); border: 1px solid #EDD4C4; transform: rotateY(180deg); }
+  .flashcard-word { font-family: 'DM Serif Display', serif; font-size: 2rem; margin-bottom: 0.5rem; }
+  .flashcard-hint { font-size: 0.82rem; color: var(--muted); }
+  .flashcard-translation { font-family: 'DM Serif Display', serif; font-size: 1.5rem; margin-bottom: 0.8rem; }
+  .flashcard-example { font-size: 0.84rem; color: var(--muted); font-style: italic; line-height: 1.5; max-width: 92%; }
 
-  .flashcard-front {
-    background: var(--accent-light);
-    border: 1px solid #C8DDD0;
-  }
-
-  .flashcard-back {
-    background: var(--accent2-light);
-    border: 1px solid #EDD4C4;
-    transform: rotateY(180deg);
-  }
-
-  .flashcard-word {
-    font-family: 'DM Serif Display', serif;
-    font-size: 2rem;
-    color: var(--text);
-    margin-bottom: 0.5rem;
-  }
-
-  .flashcard-hint {
-    font-size: 0.82rem;
-    color: var(--muted);
-  }
-
-  .flashcard-translation {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.6rem;
-    color: var(--text);
-    margin-bottom: 0.8rem;
-  }
-
-  .flashcard-example {
-    font-size: 0.85rem;
-    color: var(--muted);
-    font-style: italic;
-    line-height: 1.5;
-    max-width: 90%;
-  }
-
-  /* MULTIPLE CHOICE */
-  .question-word {
-    font-family: 'DM Serif Display', serif;
-    font-size: 2.2rem;
-    text-align: center;
-    margin: 1rem 0 0.5rem;
-  }
-
-  .question-example {
-    font-size: 0.88rem;
-    color: var(--muted);
-    text-align: center;
-    font-style: italic;
-    margin-bottom: 1.5rem;
-    line-height: 1.5;
-  }
-
-  .choices {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 1rem;
-  }
-
+  .question-word { font-family: 'DM Serif Display', serif; font-size: 2rem; text-align: center; margin: 1rem 0 0.5rem; }
+  .question-example { font-size: 0.87rem; color: var(--muted); text-align: center; font-style: italic; margin-bottom: 1.5rem; line-height: 1.5; }
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
   .choice-btn {
-    padding: 14px 16px;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    background: var(--surface);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all 0.15s;
-    text-align: center;
-    font-weight: 400;
+    padding: 13px 14px; border: 1.5px solid var(--border); border-radius: 10px;
+    background: var(--surface); color: var(--text);
+    font-family: 'DM Sans', sans-serif; font-size: 0.92rem;
+    cursor: pointer; transition: all 0.15s; text-align: center;
   }
-
-  .choice-btn:hover:not(:disabled) {
-    border-color: var(--accent);
-    background: var(--accent-light);
-  }
-
-  .choice-btn.correct {
-    border-color: var(--correct);
-    background: var(--accent-light);
-    color: var(--correct);
-    font-weight: 600;
-  }
-
-  .choice-btn.wrong {
-    border-color: var(--wrong);
-    background: var(--accent2-light);
-    color: var(--wrong);
-  }
-
+  .choice-btn:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-light); }
+  .choice-btn.correct { border-color: var(--accent); background: var(--accent-light); color: var(--accent); font-weight: 600; }
+  .choice-btn.wrong { border-color: var(--accent2); background: var(--accent2-light); color: var(--accent2); }
   .choice-btn:disabled { cursor: default; }
 
-  /* FILL IN */
   .fill-input {
-    width: 100%;
-    padding: 14px 16px;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1.1rem;
-    outline: none;
-    transition: border 0.2s;
-    margin-bottom: 10px;
-    background: var(--surface);
-    color: var(--text);
+    width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 1.05rem; outline: none;
+    transition: border 0.2s; margin-bottom: 10px; background: var(--surface); color: var(--text);
   }
-
   .fill-input:focus { border-color: var(--accent); }
-  .fill-input.correct { border-color: var(--correct); background: var(--accent-light); }
-  .fill-input.wrong { border-color: var(--wrong); background: var(--accent2-light); }
+  .fill-input.correct { border-color: var(--accent); background: var(--accent-light); }
+  .fill-input.wrong { border-color: var(--accent2); background: var(--accent2-light); }
 
-  /* NAV BUTTONS */
-  .nav-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    margin-top: 1.2rem;
-  }
+  .feedback { text-align: center; font-size: 0.9rem; font-weight: 500; padding: 8px; border-radius: 8px; margin-top: 8px; display: none; }
+  .feedback.show { display: block; }
+  .feedback.correct { color: var(--accent); background: var(--accent-light); }
+  .feedback.wrong { color: var(--accent2); background: var(--accent2-light); }
 
+  .nav-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 1.2rem; }
   .btn {
-    padding: 10px 24px;
-    border-radius: 8px;
-    border: 1.5px solid var(--border);
-    background: var(--surface);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.15s;
+    padding: 10px 22px; border-radius: 8px; border: 1.5px solid var(--border);
+    background: var(--surface); color: var(--text);
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500;
+    cursor: pointer; transition: all 0.15s;
   }
-
   .btn:hover { border-color: var(--accent); background: var(--accent-light); }
-
-  .btn-primary {
-    background: var(--accent);
-    color: white;
-    border-color: var(--accent);
-  }
-
+  .btn:disabled { opacity: 0.4; cursor: default; }
+  .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
   .btn-primary:hover { background: #234d34; border-color: #234d34; }
 
-  /* FEEDBACK */
-  .feedback {
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 500;
-    padding: 8px;
-    border-radius: 8px;
-    margin-top: 8px;
-    display: none;
-  }
-
-  .feedback.show { display: block; }
-  .feedback.correct { color: var(--correct); background: var(--accent-light); }
-  .feedback.wrong { color: var(--wrong); background: var(--accent2-light); }
-
-  /* SCORE */
-  .score-box {
-    display: flex;
-    gap: 12px;
-    justify-content: flex-end;
-    margin-bottom: 1rem;
-  }
-
-  .score-item {
-    font-size: 0.82rem;
-    color: var(--muted);
-  }
-
-  .score-item span {
-    font-weight: 600;
-    color: var(--text);
-  }
-
-  /* RESULTS */
-  .result-card {
-    text-align: center;
-    padding: 2rem 0;
-  }
-
-  .result-number {
-    font-family: 'DM Serif Display', serif;
-    font-size: 4rem;
-    color: var(--accent);
-  }
-
-  .result-label {
-    color: var(--muted);
-    margin-bottom: 1.5rem;
-  }
-
-  .result-missed {
-    text-align: left;
-    margin-top: 1.5rem;
-  }
-
-  .result-missed h3 {
-    font-size: 0.85rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 0.8rem;
-  }
-
-  .missed-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.9rem;
-  }
-
-  .missed-en { font-weight: 500; }
-  .missed-de { color: var(--muted); }
-
-  .topic-tag {
-    display: inline-block;
-    font-size: 0.7rem;
-    padding: 2px 8px;
-    border-radius: 20px;
-    background: var(--border);
-    color: var(--muted);
-    margin-left: 6px;
-  }
-
-  /* DIRECTION TOGGLE */
-  .dir-toggle {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-    font-size: 0.82rem;
-    color: var(--muted);
-  }
-
+  .meta-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; flex-wrap: wrap; gap: 6px; }
+  .dir-toggle { display: flex; gap: 6px; align-items: center; }
   .dir-toggle button {
-    padding: 4px 10px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: transparent;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    cursor: pointer;
-    color: var(--muted);
-    transition: all 0.15s;
+    padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border);
+    background: transparent; font-family: 'DM Sans', sans-serif; font-size: 0.78rem;
+    cursor: pointer; color: var(--muted); transition: all 0.15s;
   }
+  .dir-toggle button.active { background: var(--text); color: var(--bg); border-color: var(--text); }
 
-  .dir-toggle button.active {
-    background: var(--text);
-    color: var(--bg);
-    border-color: var(--text);
-  }
+  .result-card { text-align: center; padding: 1.5rem 0; }
+  .result-number { font-family: 'DM Serif Display', serif; font-size: 4rem; color: var(--accent); }
+  .result-label { color: var(--muted); margin-bottom: 1.5rem; }
+  .result-missed { text-align: left; margin-top: 1.5rem; }
+  .result-missed h3 { font-size: 0.82rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.8rem; }
+  .missed-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; gap: 8px; }
+  .missed-en { font-weight: 500; }
+  .missed-de { color: var(--muted); text-align: right; }
 
   @media (max-width: 480px) {
     .choices { grid-template-columns: 1fr; }
     header h1 { font-size: 1.8rem; }
-    .mode-btn { padding: 8px 12px; font-size: 0.82rem; }
+    .mode-btn { padding: 7px 11px; font-size: 0.8rem; }
   }
 </style>
 </head>
@@ -435,7 +192,7 @@
 
 <header>
   <h1>Vocab Quiz</h1>
-  <p>Englisch · Unit Vokabeln · 15 Wörter</p>
+  <p>Englisch · 4AAIFT · <span id="count-label">80 Vokabeln</span></p>
 </header>
 
 <div class="mode-bar">
@@ -444,41 +201,58 @@
   <button class="mode-btn" onclick="setMode('fill')">Lückentext</button>
 </div>
 
-<div class="card" id="main-card">
-  <div id="app-content"></div>
-</div>
+<div class="filter-bar" id="filter-bar"></div>
+
+<div class="card"><div id="app-content"></div></div>
 
 <script>
-const vocab = [{"en":"meaningful","de":"bedeutungsvoll","example":"Think of a famous person whose career has helped to make the world a better place and who did something meaningful.","level":"B2","topic":"Career"},{"en":"unwavering","de":"unerschütterlich","example":"Mahatma Gandhi's life itself is an unwavering commitment to bring about positive change in the lives of millions of people.","level":"C1","topic":"Character"},{"en":"perseverance","de":"Beharrlichkeit / Ausdauer","example":"To have an impressive career, one often needs to show perseverance and a high level of self-motivation.","level":"B2","topic":"Character"},{"en":"influential","de":"einflussreich","example":"Beyoncé's fans often don't know if they love or hate following influential female social media influencers.","level":"B2","topic":"Social Media"},{"en":"rarefied","de":"exklusiv / elitär","example":"Beyoncé is currently among the most rarefied status on social media.","level":"C1","topic":"Social Media"},{"en":"niche","de":"Nische","example":"A successful content creator needs to define one's niche to stand out from others.","level":"B2","topic":"Business"},{"en":"unique selling point","de":"Alleinstellungsmerkmal","example":"To have a unique selling point (USP) is a key factor for a million dollar social media career.","level":"B2","topic":"Business"},{"en":"authentic","de":"authentisch / echt","example":"Successful influencers focus on being authentic, genuine, and relatable to their audience.","level":"B2","topic":"Social Media"},{"en":"intuition","de":"Intuition / Bauchgefühl","example":"You have to trust in something — your gut, destiny, life, karma, whatever — and follow your heart and intuition.","level":"B2","topic":"Mindset"},{"en":"dogma","de":"Dogma / starre Lehrmeinung","example":"Don't be trapped by dogma — which is living with the results of other people's thinking.","level":"C1","topic":"Philosophy"},{"en":"internship","de":"Praktikum","example":"Our international internships are the career-launching experiences you're looking for.","level":"B1","topic":"Career"},{"en":"career-counselling","de":"Berufsberatung","example":"One way schools can support students is to offer professional career-counselling.","level":"B2","topic":"Education"},{"en":"foster","de":"fördern","example":"It is important for educational institutions to foster students' talents and interests.","level":"B2","topic":"Education"},{"en":"incorporate","de":"integrieren / einbauen","example":"Beyoncé began to incorporate the most-liked Instagram photo of all time into her social media strategy.","level":"B2","topic":"Media"},{"en":"pay cheque","de":"Gehaltsscheck","example":"Some people just go to work to earn a pay cheque, while others pursue a lifelong ambition.","level":"B2","topic":"Career"}];
+const allVocab = [{"en":"abolish","de":"abschaffen","example":"Travel between euro countries is easier because the costs and inconvenience of changing money have disappeared in countries that have abolished international border controls.","level":"B2","topic":"Politics"},{"en":"entitled","de":"berechtigt sein","example":"As an EU national, you are entitled to live in any EU country and you have equal access to justice everywhere in the EU.","level":"B2","topic":"Politics"},{"en":"work permit","de":"Arbeitserlaubnis","example":"As an EU national, you are entitled to work in any EU country without needing a work permit.","level":"B1","topic":"Business"},{"en":"tuition fees","de":"Studiengebühren","example":"You don't have to pay registration or tuition fees to your host university.","level":"B1","topic":"Education"},{"en":"liability","de":"Haftung","example":"If your checked-in luggage is lost, damaged or delayed, the airline is liable and you are entitled to compensation.","level":"B2","topic":"Law"},{"en":"compensation","de":"Entschädigung","example":"You are entitled to compensation up to an amount of approximately EUR 1,300.","level":"B2","topic":"Law"},{"en":"justification","de":"Begründung / Rechtfertigung","example":"You also have the right to cancel and return your order within 14 days, for any reason and without a justification.","level":"B2","topic":"Business"},{"en":"data protection","de":"Datenschutz","example":"EU data protection rules guarantee the protection of your personal data whenever they are collected.","level":"B2","topic":"Law"},{"en":"civic engagement","de":"bürgerschaftliches Engagement","example":"One of the goals is to support social and civic engagement.","level":"C1","topic":"Politics"},{"en":"empower","de":"bevollmächtigen / stärken","example":"The session aims to empower young European citizens.","level":"B2","topic":"Politics"},{"en":"over-regulation","de":"Überregulierung","example":"The Nanny State Index looks at the over-regulation of food, soft drinks, vaping, tobacco and alcohol.","level":"C1","topic":"Politics"},{"en":"temporary","de":"vorübergehend","example":"The 2021 index does not include anti-COVID policies that are expected to be a genuinely temporary response.","level":"B1","topic":"General"},{"en":"prohibition","de":"Verbot","example":"Governments across Europe are adopting higher sin taxes and more prohibitions.","level":"B2","topic":"Law"},{"en":"bureaucracy","de":"Bürokratie","example":"Excessive regulation creates excessive bureaucracy and wastes police resources.","level":"C1","topic":"Politics"},{"en":"unconstitutional","de":"verfassungswidrig","example":"Once in a while, a politician will water down their plans to ban smoking outdoors or the courts will rule some nanny state initiatives to be unconstitutional.","level":"C1","topic":"Law"},{"en":"regressive taxation","de":"regressive Besteuerung","example":"The blame for this lies overwhelmingly with regressive taxation, draconian smoking bans and excessive regulation.","level":"C1","topic":"Economics"},{"en":"legalise","de":"legalisieren","example":"Finland drops to third, although that could change once it legalises e-cigarettes.","level":"B2","topic":"Law"},{"en":"cost of living","de":"Lebenskosten","example":"High prices fuel the black market and lead to corruption, and sin taxes raise the cost of living.","level":"B2","topic":"Economics"},{"en":"referendum","de":"Volksentscheid / Referendum","example":"The more the teenagers discussed the pros and cons of the European Union, the less they knew what to vote for in the referendum.","level":"B2","topic":"Politics"},{"en":"voter turnout","de":"Wahlbeteiligung","example":"What was the voter turnout for the Brexit referendum?","level":"B2","topic":"Politics"},{"en":"disillusioned","de":"desillusioniert","example":"Some citizens have become disillusioned with the European Union.","level":"C1","topic":"Politics"},{"en":"precedent","de":"Präzedenzfall","example":"The main problem for the UK leaving the EU was the lack of precedent.","level":"C1","topic":"Law"},{"en":"obligated","de":"verpflichtet","example":"To be obligated means to be morally or legally bound to do something.","level":"B2","topic":"Law"},{"en":"uncertainty","de":"Unsicherheit","example":"The future of young Europeans is often characterized by extreme uncertainty.","level":"B2","topic":"General"},{"en":"optimistic","de":"optimistisch","example":"Gabriella is a lot more optimistic about the future of the EU than Antonia.","level":"B1","topic":"General"},{"en":"prosperity","de":"Wohlstand","example":"Prosperity and economic success are important factors for many Europeans.","level":"B2","topic":"Economics"},{"en":"resilient","de":"widerstandsfähig","example":"Younger people are thought to be naturally more resilient than adults.","level":"C1","topic":"General"},{"en":"rhetoric","de":"Rhetorik","example":"The politician got as few support in the last election as expected because of his anti-European rhetoric.","level":"C1","topic":"Politics"},{"en":"beneficial","de":"vorteilhaft","example":"His view why being part of the European Union is beneficial to the country's economy is exactly the same as mine.","level":"B2","topic":"Economics"},{"en":"straightforward","de":"geradlinig / ehrlich","example":"Some characteristics associated with different European citizens include being organised, humorous, or straightforward.","level":"B2","topic":"General"},{"en":"self-determination","de":"Selbstbestimmung","example":"Too much regulation by the state is felt to be an intrusion into our right to self-determination.","level":"C1","topic":"Politics"},{"en":"grant","de":"Zuschuss / Stipendium","example":"When studying abroad on an Erasmus+ programme, EU students get an EU grant to cover their expenses.","level":"B1","topic":"Education"},{"en":"entrepreneur","de":"Unternehmer","example":"When an entrepreneur seeks funding for a business concept, they might look for venture capital.","level":"B2","topic":"Business"},{"en":"funding","de":"Finanzierung","example":"The aim is to get enough pre-sales to fund the development of the product.","level":"B2","topic":"Business"},{"en":"invest","de":"investieren","example":"Modern media make it easier than ever before for an entrepreneur to find people willing to invest in a start-up.","level":"B1","topic":"Business"},{"en":"start-up","de":"Start-up-Unternehmen","example":"A feature which makes a start-up stand out from all competing businesses is its USP.","level":"B1","topic":"Business"},{"en":"innovative","de":"innovativ","example":"The idea is that customers commit to buying an innovative new product in advance.","level":"B2","topic":"Business"},{"en":"manufacturing","de":"Herstellung","example":"The costs include renting a workshop, materials and the manufacturing process itself.","level":"B2","topic":"Business"},{"en":"venture capital","de":"Risikokapital","example":"Venture capitalists are wealthy people or organisations with surplus money who are seeking start-ups to invest in.","level":"C1","topic":"Business"},{"en":"surplus","de":"Überschuss","example":"Venture capitalists look for opportunities to invest their surplus money.","level":"C1","topic":"Economics"},{"en":"share","de":"Anteil","example":"Investors buy a stake in the company and take a share of future profits.","level":"B1","topic":"Business"},{"en":"risk","de":"Risiko","example":"Investors carry a large part of the financial risk.","level":"B1","topic":"Business"},{"en":"sales pitch","de":"Verkaufsgespräch / Präsentation","example":"To attract investors, an entrepreneur will need to give a convincing sales pitch.","level":"B2","topic":"Business"},{"en":"return","de":"Rendite / Gegenleistung","example":"Investors need to know what investment is required and what will be offered in return.","level":"B2","topic":"Business"},{"en":"unique selling proposition","de":"Alleinstellungsmerkmal","example":"If the entrepreneur chooses to fund the start-up, it will need to have a USP.","level":"C1","topic":"Business"},{"en":"expertise","de":"Fachwissen","example":"The success of the business often depends on the entrepreneur's expertise in this field.","level":"C1","topic":"Business"},{"en":"research and development","de":"Forschung und Entwicklung","example":"Usually the entrepreneur will have to fund the research and development phase of the project.","level":"C1","topic":"Business"},{"en":"prototype","de":"Prototyp","example":"Investors will expect to see at least a fully working prototype before they commit money.","level":"B2","topic":"Business"},{"en":"time limit","de":"Zeitlimit","example":"The entrepreneur sets a funding target and a time limit in advance.","level":"B1","topic":"Business"},{"en":"technical specification","de":"technische Spezifikation","example":"In addition, we would be interested to learn about any technical specifications of your products.","level":"C1","topic":"Business"},{"en":"durability","de":"Haltbarkeit / Langlebigkeit","example":"Our products are manufactured to the highest ethical standards without compromising on style, function or durability.","level":"B2","topic":"Business"},{"en":"environmentally friendly","de":"umweltfreundlich","example":"Earthstyle Solutions produces eco-conscious electronic products that are environmentally friendly.","level":"B1","topic":"Business"},{"en":"publicity","de":"Bekanntheit / Werbung","example":"It's important to get your crowdfunding campaign off to a good start with effective publicity.","level":"B2","topic":"Business"},{"en":"bulk purchase","de":"Großeinkauf","example":"Our hiking group is considering a bulk purchase of 15 Solar Backpacks.","level":"B2","topic":"Business"},{"en":"enquiry","de":"Anfrage","example":"I am writing to enquire whether you could supply us with TRAXX speakers.","level":"B2","topic":"Business"},{"en":"unit cost","de":"Stückpreis","example":"What would be the unit cost of the speakers if we order 1,000 pairs?","level":"B2","topic":"Business"},{"en":"retail","de":"Einzelhandel","example":"Ethical Furniture is a large furniture design and retail company in the USA.","level":"B2","topic":"Business"},{"en":"compromise","de":"Kompromiss eingehen","example":"The Solar Backpack is the ideal solution for travelers who demand mobility without compromising on connectivity.","level":"B2","topic":"General"},{"en":"integrated","de":"integriert","example":"The Solar Backpack features an integrated light — a handy feature for camping.","level":"B2","topic":"Business"},{"en":"negotiate","de":"verhandeln","example":"After negotiating a deal for start-up A, start-up B pitches their product to the investors.","level":"B2","topic":"Business"},{"en":"climate control","de":"Klimaregulierung","example":"The leaflet describes a smart T-shirt with integrated climate control.","level":"C1","topic":"Business"},{"en":"target","de":"Ziel / Sollwert","example":"We realized that we weren't going to meet our funding target last year.","level":"B1","topic":"Business"},{"en":"healthcare","de":"Gesundheitsvorsorge","example":"In which areas of life, e.g. education, health care, or traveling, is EU legislation most beneficial?","level":"B1","topic":"Politics"},{"en":"work-life balance","de":"Vereinbarkeit von Beruf und Privatleben","example":"Having access to health care is as important for Europeans as having a good work-life balance.","level":"B2","topic":"Business"},{"en":"permanent representation","de":"ständige Vertretung","example":"The longer I talked to the head of the Permanent Representation of Austria in the EU, the more I learned.","level":"C1","topic":"Politics"},{"en":"globalization","de":"Globalisierung","example":"I can speak about what globalisation means to me and its benefits and downsides.","level":"B2","topic":"Economics"},{"en":"citizenship","de":"Staatsbürgerschaft","example":"I can speak about global citizenship and the role of the individual.","level":"B2","topic":"Politics"},{"en":"to take on responsibility","de":"Verantwortung übernehmen","example":"One of the main aims is to empower young people to take on an active role in society.","level":"B2","topic":"General"},{"en":"hindsight","de":"Rückschau / nachträgliche Einsicht","example":"With the benefit of hindsight, hopefully our mistakes will help other crowdfunders to get it right.","level":"C1","topic":"General"},{"en":"vaping","de":"Dampfen (E-Zigaretten)","example":"The index looks at the regulation of food, soft drinks, vaping and tobacco.","level":"B1","topic":"General"},{"en":"draconian","de":"drakonisch / sehr streng","example":"The Czech Republic has recently introduced draconian smoking bans.","level":"C1","topic":"Law"},{"en":"stake","de":"Beteiligung / Anteil","example":"Venture capitalists buy a stake in the company in exchange for funding.","level":"C1","topic":"Business"},{"en":"convincing","de":"überzeugend","example":"You need to give a convincing sales pitch to attract investors.","level":"B2","topic":"Business"},{"en":"competing","de":"konkurrierend","example":"A USP is a feature that makes a product stand out from all competing businesses.","level":"B2","topic":"Business"},{"en":"to commit money","de":"Geld zusagen / festlegen","example":"The entrepreneur sets a target before investors are prepared to commit money to a project.","level":"B2","topic":"Business"},{"en":"retail price","de":"Verkaufspreis","example":"The retail price of each pair of speakers will be around £150.","level":"B1","topic":"Business"},{"en":"eco-conscious","de":"umweltbewusst","example":"We design funky, modern, eco-conscious electronic products.","level":"B2","topic":"Business"},{"en":"to fuel","de":"anheizen / schüren","example":"High prices fuel the black market for cigarettes.","level":"B2","topic":"Economics"},{"en":"to engage in","de":"sich engagieren in / beteiligen an","example":"Students were invited to engage in a dialogue with the President of the European Commission.","level":"B2","topic":"Politics"}];
 
+const topics = [...new Set(allVocab.map(v => v.topic))].sort();
+let activeTopic = 'all';
 let mode = 'flash';
 let shuffled = [];
 let index = 0;
 let flipped = false;
-let direction = 'en-de'; // en-de or de-en
+let direction = 'en-de';
 let correct = 0;
 let wrong = 0;
 let missed = [];
 
-function shuffle(arr) {
-  return [...arr].sort(() => Math.random() - 0.5);
+function getVocab() {
+  return activeTopic === 'all' ? allVocab : allVocab.filter(v => v.topic === activeTopic);
+}
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+function buildFilters() {
+  const bar = document.getElementById('filter-bar');
+  bar.innerHTML = `<button class="filter-btn active" onclick="setTopic('all')">Alle (${allVocab.length})</button>` +
+    topics.map(t => {
+      const c = allVocab.filter(v => v.topic === t).length;
+      return `<button class="filter-btn" onclick="setTopic('${t}')">${t} (${c})</button>`;
+    }).join('');
+}
+
+function setTopic(t) {
+  activeTopic = t;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.startsWith(t === 'all' ? 'Alle' : t));
+  });
+  restart();
 }
 
 function setMode(m) {
   mode = m;
-  document.querySelectorAll('.mode-btn').forEach((b,i) => {
+  document.querySelectorAll('.mode-btn').forEach((b, i) => {
     b.classList.toggle('active', ['flash','mc','fill'][i] === m);
   });
   restart();
 }
 
 function restart() {
-  shuffled = shuffle(vocab);
-  index = 0;
-  flipped = false;
-  correct = 0;
-  wrong = 0;
-  missed = [];
+  shuffled = shuffle(getVocab());
+  index = 0; flipped = false; correct = 0; wrong = 0; missed = [];
+  document.getElementById('count-label').textContent = shuffled.length + ' Vokabeln';
   render();
 }
 
@@ -486,7 +260,6 @@ function render() {
   if (index >= shuffled.length) { renderResults(); return; }
   const w = shuffled[index];
   const pct = (index / shuffled.length * 100).toFixed(0);
-
   if (mode === 'flash') renderFlash(w, pct);
   else if (mode === 'mc') renderMC(w, pct);
   else renderFill(w, pct);
@@ -499,26 +272,27 @@ function progressHTML(pct) {
   </div>`;
 }
 
-function scoreHTML() {
-  return `<div class="score-box">
-    <span class="score-item">✓ <span>${correct}</span></span>
-    <span class="score-item">✗ <span>${wrong}</span></span>
+function metaHTML(w) {
+  return `<div class="meta-row">
+    <div><span class="badge">${w.level}</span><span class="badge badge-gray">${w.topic}</span></div>
+    <div class="dir-toggle">
+      <button class="${direction==='en-de'?'active':''}" onclick="setDir('en-de')">EN→DE</button>
+      <button class="${direction==='de-en'?'active':''}" onclick="setDir('de-en')">DE→EN</button>
+    </div>
   </div>`;
+}
+
+function scoreHTML() {
+  return `<div class="score-box"><span class="score-item">✓ <span>${correct}</span></span><span class="score-item">✗ <span>${wrong}</span></span></div>`;
 }
 
 function renderFlash(w, pct) {
   const front = direction === 'en-de' ? w.en : w.de;
-  const back = direction === 'en-de' ? w.de : w.en;
+  const back  = direction === 'en-de' ? w.de : w.en;
   document.getElementById('app-content').innerHTML = `
     ${progressHTML(pct)}
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
-      <div><span class="badge">${w.level}</span><span class="badge" style="background:#F1EFE8;color:#5F5E5A">${w.topic}</span></div>
-      <div class="dir-toggle">
-        <button class="${direction==='en-de'?'active':''}" onclick="setDir('en-de')">EN→DE</button>
-        <button class="${direction==='de-en'?'active':''}" onclick="setDir('de-en')">DE→EN</button>
-      </div>
-    </div>
-    <div class="flashcard-wrap" onclick="flipCard()" id="fc-wrap">
+    ${metaHTML(w)}
+    <div class="flashcard-wrap" onclick="flipCard()">
       <div class="flashcard-inner" id="fc-inner">
         <div class="flashcard-front">
           <div class="flashcard-word">${front}</div>
@@ -533,45 +307,31 @@ function renderFlash(w, pct) {
     <div class="nav-row">
       <button class="btn" onclick="prevCard()" ${index===0?'disabled':''}>← Zurück</button>
       <button class="btn btn-primary" onclick="nextCard()">Weiter →</button>
-    </div>
-  `;
+    </div>`;
 }
 
-function flipCard() {
-  flipped = !flipped;
-  document.getElementById('fc-inner').classList.toggle('flipped', flipped);
-}
-
-function setDir(d) {
-  direction = d;
-  flipped = false;
-  render();
-}
-
+function flipCard() { flipped = !flipped; document.getElementById('fc-inner').classList.toggle('flipped', flipped); }
+function setDir(d) { direction = d; flipped = false; render(); }
 function prevCard() { if (index > 0) { index--; flipped = false; render(); } }
 function nextCard() { index++; flipped = false; render(); }
 
 function renderMC(w, pct) {
   const question = direction === 'en-de' ? w.en : w.de;
-  const answer = direction === 'en-de' ? w.de : w.en;
-  const others = shuffle(vocab.filter(v => v.en !== w.en)).slice(0, 3).map(v => direction === 'en-de' ? v.de : v.en);
+  const answer   = direction === 'en-de' ? w.de : w.en;
+  const pool = allVocab.filter(v => v.en !== w.en);
+  const others = shuffle(pool).slice(0, 3).map(v => direction === 'en-de' ? v.de : v.en);
   const options = shuffle([answer, ...others]);
-
+  const esc = s => s.replace(/'/g,"\\'");
   document.getElementById('app-content').innerHTML = `
     ${progressHTML(pct)}
     ${scoreHTML()}
-    <div class="dir-toggle" style="justify-content:flex-end;margin-bottom:0.8rem;">
-      <button class="${direction==='en-de'?'active':''}" onclick="setDir('en-de')">EN→DE</button>
-      <button class="${direction==='de-en'?'active':''}" onclick="setDir('de-en')">DE→EN</button>
-    </div>
-    <div><span class="badge">${w.level}</span><span class="badge" style="background:#F1EFE8;color:#5F5E5A">${w.topic}</span></div>
+    ${metaHTML(w)}
     <div class="question-word">${question}</div>
     <div class="question-example">"${w.example}"</div>
-    <div class="choices" id="choices">
-      ${options.map(o => `<button class="choice-btn" onclick="checkMC(this,'${o.replace(/'/g,"\\'")}','${answer.replace(/'/g,"\\'")}')">${o}</button>`).join('')}
+    <div class="choices">
+      ${options.map(o => `<button class="choice-btn" onclick="checkMC(this,'${esc(o)}','${esc(answer)}')">${o}</button>`).join('')}
     </div>
-    <div class="feedback" id="feedback"></div>
-  `;
+    <div class="feedback" id="feedback"></div>`;
 }
 
 function checkMC(btn, chosen, answer) {
@@ -583,41 +343,31 @@ function checkMC(btn, chosen, answer) {
   fb.classList.add('show');
   if (chosen === answer) {
     btn.classList.add('correct');
-    fb.textContent = '✓ Richtig!';
-    fb.className = 'feedback show correct';
-    correct++;
+    fb.textContent = '✓ Richtig!'; fb.className = 'feedback show correct'; correct++;
   } else {
     btn.classList.add('wrong');
-    fb.textContent = `✗ Falsch — richtig wäre: ${answer}`;
-    fb.className = 'feedback show wrong';
-    wrong++;
-    missed.push(shuffled[index]);
+    fb.textContent = '✗ Falsch — richtig: ' + answer; fb.className = 'feedback show wrong';
+    wrong++; missed.push(shuffled[index]);
   }
   setTimeout(() => { index++; render(); }, 1400);
 }
 
 function renderFill(w, pct) {
   const question = direction === 'en-de' ? w.de : w.en;
-  const answer = direction === 'en-de' ? w.en : w.de;
-  const exampleBlank = w.example.replace(new RegExp(w.en, 'gi'), '___________');
-
+  const answer   = direction === 'en-de' ? w.en : w.de;
+  const blank = w.example.replace(new RegExp(w.en.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'), 'gi'), '___________');
   document.getElementById('app-content').innerHTML = `
     ${progressHTML(pct)}
     ${scoreHTML()}
-    <div class="dir-toggle" style="justify-content:flex-end;margin-bottom:0.8rem;">
-      <button class="${direction==='en-de'?'active':''}" onclick="setDir('en-de')">EN→DE</button>
-      <button class="${direction==='de-en'?'active':''}" onclick="setDir('de-en')">DE→EN</button>
-    </div>
-    <div><span class="badge">${w.level}</span><span class="badge" style="background:#F1EFE8;color:#5F5E5A">${w.topic}</span></div>
+    ${metaHTML(w)}
     <div class="question-word">${question}</div>
-    <div class="question-example">"${exampleBlank}"</div>
+    <div class="question-example">"${blank}"</div>
     <input class="fill-input" id="fill-in" placeholder="Englisches Wort eingeben..." autocomplete="off" onkeydown="if(event.key==='Enter')checkFill()">
     <div class="feedback" id="feedback"></div>
     <div class="nav-row" style="margin-top:0.8rem;">
       <button class="btn" onclick="skipFill()">Überspringen</button>
       <button class="btn btn-primary" onclick="checkFill()">Prüfen →</button>
-    </div>
-  `;
+    </div>`;
   document.getElementById('fill-in').focus();
 }
 
@@ -628,54 +378,42 @@ function checkFill() {
   const val = input.value.trim().toLowerCase();
   const fb = document.getElementById('feedback');
   fb.classList.add('show');
-
   if (val === answer.toLowerCase()) {
     input.classList.add('correct');
-    fb.textContent = '✓ Richtig!';
-    fb.className = 'feedback show correct';
-    correct++;
+    fb.textContent = '✓ Richtig!'; fb.className = 'feedback show correct'; correct++;
     setTimeout(() => { index++; render(); }, 1200);
   } else {
-    input.classList.add('wrong');
-    input.disabled = true;
-    fb.textContent = `✗ Falsch — richtig: ${answer}`;
-    fb.className = 'feedback show wrong';
-    wrong++;
-    missed.push(w);
+    input.classList.add('wrong'); input.disabled = true;
+    fb.textContent = '✗ Falsch — richtig: ' + answer; fb.className = 'feedback show wrong';
+    wrong++; missed.push(w);
     setTimeout(() => { index++; render(); }, 1800);
   }
 }
 
-function skipFill() {
-  wrong++;
-  missed.push(shuffled[index]);
-  index++;
-  render();
-}
+function skipFill() { wrong++; missed.push(shuffled[index]); index++; render(); }
 
 function renderResults() {
   const total = correct + wrong;
   const pct = total ? Math.round(correct / total * 100) : 0;
   const uniqueMissed = missed.filter((v,i,a) => a.findIndex(x=>x.en===v.en)===i);
-
   document.getElementById('app-content').innerHTML = `
     <div class="result-card">
       <div class="result-number">${pct}%</div>
       <div class="result-label">${correct} von ${total} richtig</div>
       <button class="btn btn-primary" onclick="restart()">Nochmal üben</button>
       ${uniqueMissed.length ? `
-      <div class="result-missed">
-        <h3>Noch üben (${uniqueMissed.length})</h3>
-        ${uniqueMissed.map(v => `
-          <div class="missed-item">
-            <span class="missed-en">${v.en}<span class="topic-tag">${v.topic}</span></span>
-            <span class="missed-de">${v.de}</span>
-          </div>`).join('')}
-      </div>` : `<p style="color:var(--accent);margin-top:1rem;font-weight:500">Perfekt — alle richtig! 🎉</p>`}
-    </div>
-  `;
+        <div class="result-missed">
+          <h3>Noch üben (${uniqueMissed.length})</h3>
+          ${uniqueMissed.map(v => `
+            <div class="missed-item">
+              <span class="missed-en">${v.en} <span class="badge badge-gray" style="font-size:0.65rem">${v.topic}</span></span>
+              <span class="missed-de">${v.de}</span>
+            </div>`).join('')}
+        </div>` : '<p style="color:var(--accent);margin-top:1.2rem;font-weight:500">Perfekt — alle richtig! 🎉</p>'}
+    </div>`;
 }
 
+buildFilters();
 restart();
 </script>
 </body>
